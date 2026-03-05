@@ -22,7 +22,7 @@ async def create_city(db: AsyncSession, city: schemas.CityCreate) -> models.City
 
 async def update_city(
     db: AsyncSession, city_id: int, city_data: schemas.CityCreate
-) -> models.City:
+) -> models.City | None:
     db_city = await get_city_by_id(db, city_id)
     if db_city:
         db_city.name = city_data.name

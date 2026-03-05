@@ -11,14 +11,16 @@ async def get_all_temperatures(db: AsyncSession) -> list[models.Temperature]:
 
 async def get_temperature_by_city_id(
     db: AsyncSession, city_id: int
-) -> models.Temperature:
+) -> list[models.Temperature]:
     temperatures = await db.scalars(
         select(models.Temperature).where(models.Temperature.city_id == city_id)
     )
     return temperatures.all()
 
 
-async def create_temperature(db: AsyncSession, temp_data: schemas.TemperatureCreate):
+async def create_temperature(
+    db: AsyncSession, temp_data: schemas.TemperatureCreate
+) -> models.Temperature:
     db_temp = models.Temperature(
         city_id=temp_data.city_id, temperature=temp_data.temperature
     )
